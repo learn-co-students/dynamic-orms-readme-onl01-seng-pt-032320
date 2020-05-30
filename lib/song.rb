@@ -5,7 +5,7 @@ class Song
 
 
   def self.table_name
-    self.to_s.downcase.pluralize
+    self.to_s.downcase.pluralize #turns Class into classes
   end
 
   def self.column_names
@@ -18,14 +18,14 @@ class Song
     table_info.each do |row|
       column_names << row["name"]
     end
-    column_names.compact
+    column_names.compact #creates the column names like id name and album
   end
 
   self.column_names.each do |col_name|
-    attr_accessor col_name.to_sym
+    attr_accessor col_name.to_sym # formats the name to have the : symbol so :id
   end
 
-  def initialize(options={})
+  def initialize(options={}) # creates new objects by sending a method to set a certain attribute
     options.each do |property, value|
       self.send("#{property}=", value)
     end
@@ -43,13 +43,13 @@ class Song
 
   def values_for_insert
     values = []
-    self.class.column_names.each do |col_name|
-      values << "'#{send(col_name)}'" unless send(col_name).nil?
+    self.class.column_names.each do |col_name| # we get values by sending a getter method and pushing that value
+      values << "'#{send(col_name)}'" unless send(col_name).nil? #pushes value to be joined in a string
     end
     values.join(", ")
   end
 
-  def col_names_for_insert
+  def col_names_for_insert # joins all columns into 1 string seperated by , with every column name but id
     self.class.column_names.delete_if {|col| col == "id"}.join(", ")
   end
 
@@ -59,6 +59,3 @@ class Song
   end
 
 end
-
-
-
