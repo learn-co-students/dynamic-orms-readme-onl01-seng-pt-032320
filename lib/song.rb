@@ -3,11 +3,12 @@ require 'active_support/inflector'
 
 class Song
 
-
+#Grabs table name, downcases, and pluralizes 
   def self.table_name
-    self.to_s.downcase.pluralize
+    self.to_s.downcase.pluralize 
   end
 
+#Grabs column names 
   def self.column_names
     DB[:conn].results_as_hash = true
 
@@ -20,7 +21,8 @@ class Song
     end
     column_names.compact
   end
-
+  
+#Sets Column names as attr_accessor for use across any class 
   self.column_names.each do |col_name|
     attr_accessor col_name.to_sym
   end
